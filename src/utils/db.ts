@@ -5,14 +5,12 @@ import { migrations as allMigrations, Migration } from '../migrations/migrations
 
 const dbName = process.env.DB_NAME || 'skyesofbot';
 
-export async function testFunc() {
-	const db = new DatabaseConstructor(`${dbName}.db`);
-
-	db.close();
+export function openDbConnection(): Database {
+	return new DatabaseConstructor(`${dbName}.db`);
 }
 
-export function runMigrations() {
-	const db = new DatabaseConstructor(`${dbName}.db`);
+export function runMigrations(): void {
+	const db = openDbConnection();
 
 	// Create the migrations table if it doesn't exist
 	const createMigrationsTable = db.prepare('CREATE TABLE IF NOT EXISTS migrations (migration_id varchar(36) PRIMARY KEY, dateRan datetime DEFAULT CURRENT_TIMESTAMP)');
@@ -24,7 +22,7 @@ export function runMigrations() {
 	db.close();
 }
 
-function migrate(db: Database, migrations: Record<string, Migration>) {
+function migrate(db: Database, migrations: Record<string, Migration>): void {
 	Object.keys(migrations).forEach((migrationId) => {
 		const migrationPreviouslyRun = db.prepare('SELECT 1 FROM migrations WHERE migration_id = ?').get(migrationId);
 
