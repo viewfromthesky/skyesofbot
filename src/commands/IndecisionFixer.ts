@@ -1,5 +1,5 @@
 import { BaseCommandInteraction, Client, Constants } from 'discord.js';
-import { SlashCommand } from '../Command';
+import { SlashCommand } from '../types/Command';
 
 export const IndecisionFixer: SlashCommand = {
 	name: 'fixindecision',
@@ -20,6 +20,8 @@ export const IndecisionFixer: SlashCommand = {
 		}
 	],
 	run: async(_: Client, interaction: BaseCommandInteraction) => {
+		await interaction.deferReply();
+
 		const { options } = interaction;
 		const interactionOptionsString = options.get('things')?.value as string || '';
 		const delimiter = options.get('delimiter')?.value || ',';

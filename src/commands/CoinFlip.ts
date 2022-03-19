@@ -1,11 +1,13 @@
 import { BaseCommandInteraction, Client } from 'discord.js';
-import { SlashCommand } from '../Command';
+import { SlashCommand } from '../types/Command';
 
 export const CoinFlip: SlashCommand = {
 	name: 'coinflip',
 	description: 'Flips a coin',
 	type: 'CHAT_INPUT',
 	run: async (_: Client, interaction: BaseCommandInteraction) => {
+		await interaction.deferReply();
+
 		let content: string | undefined = undefined;
 		const flip: number = Math.random();
 
