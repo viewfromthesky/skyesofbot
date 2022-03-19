@@ -1,6 +1,7 @@
 import { BaseCommandInteraction, ButtonInteraction, Client, Interaction, SelectMenuInteraction } from 'discord.js';
 import { Commands } from '../Commands';
 import { SelectMenuHandlers, ButtonHandlers } from '../MessageComponentHandlers';
+import { getOperatorName } from '../utils/helpers';
 
 export default (client: Client): void => {
 	client.on('interactionCreate', async(interaction: Interaction) => {
@@ -38,7 +39,7 @@ const handleSelectMenu = async (client: Client, interaction: SelectMenuInteracti
 	if(!componentHandler) {
 		await interaction.deferReply();
 
-		interaction.followUp({ content: `Interaction handler "${interaction.customId}" not found, contact [adminName] because they probably broke something`})
+		interaction.followUp({ content: `Interaction handler "${interaction.customId}" not found, contact ${getOperatorName(client)} because they probably broke something`})
 
 		return;
 	}
@@ -53,7 +54,7 @@ const handleButton = async (client: Client, interaction: ButtonInteraction): Pro
 	if(!componentHandler) {
 		await interaction.deferReply();
 
-		interaction.followUp({ content: `Interaction handler "${interaction.customId}" not found, contact [adminName] because they probably broke something`});
+		interaction.followUp({ content: `Interaction handler "${interaction.customId}" not found, contact ${getOperatorName(client)} because they probably broke something`});
 
 		return;
 	}

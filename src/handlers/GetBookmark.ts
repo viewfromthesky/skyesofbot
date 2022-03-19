@@ -11,6 +11,8 @@ export const GetBookmark: SelectMenuHandler = {
 		const [bookmarkId] = interaction.values;
 		const bookmark: Bookmark = db.prepare('SELECT bookmark_name, data FROM bookmarks WHERE bookmark_id = ?').get(bookmarkId);
 
+		db.close();
+
 		await interaction.reply({
 			ephemeral: true,
 			content: `You selected "${bookmark.bookmark_name}". What would you like to do?\n\nContent: ${bookmark.data}`,
@@ -28,7 +30,5 @@ export const GetBookmark: SelectMenuHandler = {
 					)
 			]
 		});
-
-		db.close();
 	}
 };

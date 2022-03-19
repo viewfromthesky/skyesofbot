@@ -1,10 +1,11 @@
 import { Client, ButtonInteraction } from 'discord.js';
 import { ButtonHandler } from '../types/MessageComponentHandler';
 import { openDbConnection } from '../utils/db';
+import { getOperatorName } from '../utils/helpers';
 
 export const DeleteBookmark: ButtonHandler = {
 	handlerName: 'DeleteBookmark',
-	run: async(_: Client, interaction: ButtonInteraction) => {
+	run: async(client: Client, interaction: ButtonInteraction) => {
 		const db = openDbConnection();
 
 		const [, bookmarkId] = interaction.customId.split('-');
@@ -25,9 +26,8 @@ export const DeleteBookmark: ButtonHandler = {
 				});
 			}
 		} else {
-			// TODO: Update with admin user name (add ADMIN_ID to .env)
 			await interaction.reply({
-				content: 'There was an issue deleting your bookmark; please try again later or contact [adminName] for help.'
+				content: `There was an issue deleting your bookmark; please try again later or contact ${getOperatorName(client)} for help.`
 			});
 		}
 

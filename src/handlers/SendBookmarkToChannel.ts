@@ -12,10 +12,10 @@ export const SendBookmarkToChannel: ButtonHandler = {
 			.prepare('SELECT data FROM bookmarks WHERE bookmark_id = ?')
 			.get(bookmarkId);
 
+		db.close();
+
 		await interaction.reply({
 			content: bookmarkData.data
 		});
-
-		db.close();
 	}
 };

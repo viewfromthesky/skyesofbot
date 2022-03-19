@@ -1,6 +1,7 @@
 import { BaseCommandInteraction, Client, Constants } from 'discord.js';
 import { SlashCommand } from '../types/Command';
 import { openDbConnection } from '../utils/db';
+import { getOperatorName } from '../utils/helpers';
 
 const bookmarkNameMaxLength = 1024;
 const bookmarkContentMaxLength = 2048;
@@ -23,10 +24,10 @@ export const SaveBookmark: SlashCommand = {
 			type: Constants.ApplicationCommandOptionTypes.STRING
 		}
 	],
-	run: async(_: Client, interaction: BaseCommandInteraction) => {
+	run: async(client: Client, interaction: BaseCommandInteraction) => {
 		const { options, user } = interaction;
 		const bookmarkName = options.get('name')?.value as string || '';
-		const bookmarkContent = options.get('thing')?.value as string || '';
+		const bookmarkContent = options.get('content')?.value as string || '';
 
 		// Ensure the user isn't going to hit the column data size limits before submitting
 		if(bookmarkName.length <= bookmarkNameMaxLength && bookmarkContent.length <= bookmarkContentMaxLength) {
@@ -46,7 +47,7 @@ export const SaveBookmark: SlashCommand = {
 				} else {
 					await interaction.reply({
 						ephemeral: true,
-						content: 'There was an error saving your bookmark. Contact [adminName] as they may have broken something.'
+						content: `There was an error saving your bookmark. Contact ${getOperatorName(client)} as they may have broken something.`
 					})
 				}
 			} else {
