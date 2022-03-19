@@ -15,5 +15,7 @@ export const SendBookmarkToChannel: ButtonHandler = {
 		await interaction.reply({
 			content: bookmarkData.data
 		});
+
+		db.close();
 	}
 };
