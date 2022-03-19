@@ -1,6 +1,13 @@
-import { Client, MessageComponentInteraction } from 'discord.js';
+import { Client, SelectMenuInteraction, ButtonInteraction } from 'discord.js';
 
-export default interface MessageComponentHandler {
+interface MessageComponentHandler {
 	handlerName: string;
-	run: (client: Client, interaction: MessageComponentInteraction) => void
+}
+
+export interface ButtonHandler extends MessageComponentHandler {
+	run: (client: Client, interaction: ButtonInteraction) => void
+}
+
+export interface SelectMenuHandler extends MessageComponentHandler {
+	run: (client: Client, interaction: SelectMenuInteraction) => void
 }

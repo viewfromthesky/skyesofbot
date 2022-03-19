@@ -1,13 +1,7 @@
-import { BaseCommandInteraction, Client, Constants, MessageActionRow, MessageSelectMenu } from 'discord.js';
+import { BaseCommandInteraction, Client, MessageActionRow, MessageSelectMenu } from 'discord.js';
 import { SlashCommand } from '../types/Command';
 import { openDbConnection } from '../utils/db';
-
-interface Bookmark {
-	bookmark_id: number;
-	user_id?: string;
-	bookmark_name: string;
-	data: string;
-}
+import Bookmark from '../types/Bookmark';
 
 export const GetBookmark: SlashCommand = {
 	name: 'getbookmark',
@@ -21,6 +15,7 @@ export const GetBookmark: SlashCommand = {
 			.all(userId);
 
 		await interaction.reply({
+			ephemeral: true,
 			content: 'You\'ve saved the following bookmarks:',
 			components: [
 				new MessageActionRow()
@@ -33,7 +28,7 @@ export const GetBookmark: SlashCommand = {
 									({
 										label: bookmark.bookmark_name,
 										description: bookmark.data,
-										value: bookmark.data
+										value: `${bookmark.bookmark_id}`
 									})
 								)
 							)
