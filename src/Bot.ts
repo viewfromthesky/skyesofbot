@@ -1,5 +1,5 @@
 require('dotenv').config();
-import { Client, ClientOptions } from 'discord.js';
+import { Client } from 'discord.js';
 import ready from './listeners/ready';
 import interactionCreate from './listeners/interactionCreate';
 
