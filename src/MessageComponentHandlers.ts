@@ -1,7 +1,12 @@
-import MessageComponentHandler from './types/MessageComponentHandler';
+import { SelectMenuHandler, ButtonHandler } from './types/MessageComponentHandler';
 import { GetBookmark } from './handlers/GetBookmark';
+import { SendBookmarkToChannel } from './handlers/SendBookmarkToChannel';
 
 
-export const MessageComponentHandlers: MessageComponentHandler[] = [
+export const SelectMenuHandlers: SelectMenuHandler[] = [
 	GetBookmark
+];
+
+export const ButtonHandlers: ButtonHandler[] = [
+	SendBookmarkToChannel
 ];
