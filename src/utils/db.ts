@@ -1,14 +1,9 @@
 import DatabaseConstructor, { Database } from 'better-sqlite3';
 import fs from 'fs';
 import path from 'path';
-import allMigrations from '../migrations/migrations.json';
+import { migrations as allMigrations, Migration } from '../migrations/migrations';
 
 const dbName = process.env.DB_NAME || 'skyesofbot';
-
-interface Migration {
-	up: string;
-	down?: string;
-}
 
 export async function testFunc() {
 	const db = new DatabaseConstructor(`${dbName}.db`);
@@ -34,6 +29,9 @@ function migrate(db: Database, migrations: Record<string, Migration>) {
 		const migrationPreviouslyRun = db.prepare('SELECT 1 FROM migrations WHERE migration_id = ?').get(migrationId);
 
 		if(!migrationPreviouslyRun) {
+			const migration = migrations[migrationId];
+
+			console.log(`Migration "${migration.name}" has not been run`);
 			const migrationFile = fs.readFileSync(`${path.dirname(require.main?.filename as string)}/migrations/sql/${migrations[migrationId].up}.sql`, 'utf8');
 
 			db.exec(migrationFile);

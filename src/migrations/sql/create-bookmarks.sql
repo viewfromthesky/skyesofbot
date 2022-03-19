@@ -1,1 +1,1 @@
-CREATE TABLE bookmarks (userId varchar(255), data varchar(1024));
+CREATE TABLE bookmarks (user_id varchar(255), data varchar(1024));
