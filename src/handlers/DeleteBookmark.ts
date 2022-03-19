@@ -21,7 +21,7 @@ export const DeleteBookmark: ButtonHandler = {
 
 			if(update.changes > 0) {
 				await interaction.reply({
-					content: `Your bookmark "${bookmark.bookmark_name} has been deleted.`
+					content: `Your bookmark "${bookmark.bookmark_name}" has been deleted.`
 				});
 			}
 		} else {

@@ -21,20 +21,27 @@ export const SaveBookmark: SlashCommand = {
 		}
 	],
 	run: async(_: Client, interaction: BaseCommandInteraction) => {
-		await interaction.deferReply();
-
 		const { options, user } = interaction;
 		const bookmarkName = options.get('name')?.value;
 		const thingToSave = options.get('thing')?.value;
 
 		const db = openDbConnection();
-		db.prepare('INSERT INTO bookmarks (user_id, bookmark_name, data) VALUES (?, ?, ?)').run(user.id, bookmarkName, thingToSave);
+		const update = db.prepare('INSERT INTO bookmarks (user_id, bookmark_name, data) VALUES (?, ?, ?)').run(user.id, bookmarkName, thingToSave);
+
+		console.log('update', update);
 
 		db.close();
 
-		await interaction.followUp({
-			ephemeral: true,
-			content: 'done'
-		});
+		if(update.changes && update.lastInsertRowid) {
+			await interaction.reply({
+				ephemeral: true,
+				content: `Your bookmark "${bookmarkName}" has been saved. Find bookmarks again with /getbookmark`
+			});
+		} else {
+			await interaction.reply({
+				ephemeral: true,
+				content: 'There was an error saving your bookmark. Contact [adminName] as they may have broken something.'
+			})
+		}
 	}
 }

@@ -14,26 +14,33 @@ export const GetBookmark: SlashCommand = {
 			.prepare('SELECT bookmark_id, bookmark_name, data FROM bookmarks WHERE user_id = ?')
 			.all(userId);
 
-		await interaction.reply({
-			ephemeral: true,
-			content: 'You\'ve saved the following bookmarks:',
-			components: [
-				new MessageActionRow()
-					.addComponents(
-						new MessageSelectMenu()
-							.setCustomId('GetBookmark')
-							.setPlaceholder('Pick a bookmark')
-							.addOptions(bookmarks
-								.map((bookmark) =>
-									({
-										label: bookmark.bookmark_name,
-										description: bookmark.data,
-										value: `${bookmark.bookmark_id}`
-									})
+		if(bookmarks.length) {
+			await interaction.reply({
+				ephemeral: true,
+				content: 'You\'ve saved the following bookmarks:',
+				components: [
+					new MessageActionRow()
+						.addComponents(
+							new MessageSelectMenu()
+								.setCustomId('GetBookmark')
+								.setPlaceholder('Pick a bookmark')
+								.addOptions(bookmarks
+									.map((bookmark) =>
+										({
+											label: bookmark.bookmark_name,
+											description: bookmark.data,
+											value: `${bookmark.bookmark_id}`
+										})
+									)
 								)
-							)
-					)
-			]
-		})
+						)
+				]
+			});
+		} else {
+			await interaction.reply({
+				ephemeral: true,
+				content: 'You\'ve not saved any bookmarks yet; try /savebookmark to get started'
+			});
+		}
 	}
 }
