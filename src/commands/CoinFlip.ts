@@ -31,4 +31,4 @@ export const CoinFlip: SlashCommand = {
 			content
 		})
 	}
-}
+};
