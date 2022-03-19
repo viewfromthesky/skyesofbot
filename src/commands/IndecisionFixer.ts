@@ -8,7 +8,7 @@ export const IndecisionFixer: SlashCommand = {
 	options: [
 		{
 			name: 'things',
-			description: 'Comma-delimited string (by default) of things to choose from',
+			description: 'Comma-delimited string (by default) of things to choose from (e.g. "banana, apple, orange")',
 			required: true,
 			type: Constants.ApplicationCommandOptionTypes.STRING,
 		},
@@ -24,7 +24,7 @@ export const IndecisionFixer: SlashCommand = {
 		const interactionOptionsString = options.get('things')?.value as string || '';
 		const delimiter = options.get('delimiter')?.value || ',';
 
-		const interactionOptions = interactionOptionsString.split(new RegExp(`${delimiter}\\s?`));
+		const interactionOptions = interactionOptionsString.split(new RegExp(`\\s?${delimiter}\\s?`));
 
 		if(interactionOptions.length === 1) {
 			await interaction.followUp({
@@ -32,8 +32,7 @@ export const IndecisionFixer: SlashCommand = {
 				content: 'You only sent me one option...'
 			})
 		} else {
-			const selectionIndex = Math.floor(Math.random() * interactionOptions.length);
-			const selection = interactionOptions[selectionIndex];
+			const selection = interactionOptions[Math.floor(Math.random() * interactionOptions.length)];
 
 			await interaction.followUp({
 				ephemeral: true,
