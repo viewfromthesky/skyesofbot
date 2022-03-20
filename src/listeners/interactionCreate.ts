@@ -1,63 +1,96 @@
-import { BaseCommandInteraction, ButtonInteraction, Client, Interaction, SelectMenuInteraction } from 'discord.js';
+import {
+  BaseCommandInteraction,
+  ButtonInteraction,
+  Client,
+  Interaction,
+  SelectMenuInteraction
+} from 'discord.js';
 import { Commands } from '../Commands';
-import { SelectMenuHandlers, ButtonHandlers } from '../MessageComponentHandlers';
+import {
+  SelectMenuHandlers,
+  ButtonHandlers
+} from '../MessageComponentHandlers';
 import { getOperatorName } from '../utils/helpers';
 
 export default (client: Client): void => {
-	client.on('interactionCreate', async(interaction: Interaction) => {
-		if(interaction.isCommand() || interaction.isContextMenu()) {
-			await handleSlashCommand(client, interaction);
-		}
-		else if(interaction.isSelectMenu())
-		{
-			await handleSelectMenu(client, interaction);
-		}
-		else if(interaction.isButton())
-		{
-			await handleButton(client, interaction);
-		}
-	});
-}
-
-const handleSlashCommand = async (client: Client, interaction: BaseCommandInteraction): Promise<void> => {
-	const slashCommand = Commands.find(c => c.name === interaction.commandName);
-
-	if(!slashCommand) {
-		await interaction.deferReply();
-
-		interaction.followUp({ content: 'Command not found, try /help for a list of commands' });
-
-		return;
-	}
-
-	slashCommand.run(client, interaction);
+  client.on('interactionCreate', async (interaction: Interaction) => {
+    if (interaction.isCommand() || interaction.isContextMenu()) {
+      await handleSlashCommand(client, interaction);
+    } else if (interaction.isSelectMenu()) {
+      await handleSelectMenu(client, interaction);
+    } else if (interaction.isButton()) {
+      await handleButton(client, interaction);
+    }
+  });
 };
 
-const handleSelectMenu = async (client: Client, interaction: SelectMenuInteraction): Promise<void> => {
-	const componentHandler = SelectMenuHandlers.find(m => m.handlerName === interaction.customId);
+const handleSlashCommand = async (
+  client: Client,
+  interaction: BaseCommandInteraction
+): Promise<void> => {
+  const slashCommand = Commands.find((c) => c.name === interaction.commandName);
 
-	if(!componentHandler) {
-		await interaction.deferReply();
+  if (!slashCommand) {
+    await interaction.deferReply();
 
-		interaction.followUp({ content: `Interaction handler "${interaction.customId}" not found, contact ${getOperatorName(client)} because they probably broke something`})
+    // TODO: Add /help command
+    interaction.followUp({
+      content: 'Command not found, try /help for a list of commands'
+    });
 
-		return;
-	}
+    return;
+  }
 
-	componentHandler.run(client, interaction);
+  slashCommand.run(client, interaction);
 };
 
-const handleButton = async (client: Client, interaction: ButtonInteraction): Promise<void> => {
-	const [interactionId] = interaction.customId.split('-');
-	const componentHandler = ButtonHandlers.find(b => b.handlerName === interactionId);
+const handleSelectMenu = async (
+  client: Client,
+  interaction: SelectMenuInteraction
+): Promise<void> => {
+  const componentHandler = SelectMenuHandlers.find(
+    (m) => m.handlerName === interaction.customId
+  );
 
-	if(!componentHandler) {
-		await interaction.deferReply();
+  if (!componentHandler) {
+    await interaction.deferReply();
 
-		interaction.followUp({ content: `Interaction handler "${interaction.customId}" not found, contact ${getOperatorName(client)} because they probably broke something`});
+    interaction.followUp({
+      content: `Interaction handler "${
+        interaction.customId
+      }" not found, contact ${getOperatorName(
+        client
+      )} because they probably broke something`
+    });
 
-		return;
-	}
+    return;
+  }
 
-	componentHandler.run(client, interaction);
+  componentHandler.run(client, interaction);
+};
+
+const handleButton = async (
+  client: Client,
+  interaction: ButtonInteraction
+): Promise<void> => {
+  const [interactionId] = interaction.customId.split('-');
+  const componentHandler = ButtonHandlers.find(
+    (b) => b.handlerName === interactionId
+  );
+
+  if (!componentHandler) {
+    await interaction.deferReply();
+
+    interaction.followUp({
+      content: `Interaction handler "${
+        interaction.customId
+      }" not found, contact ${getOperatorName(
+        client
+      )} because they probably broke something`
+    });
+
+    return;
+  }
+
+  componentHandler.run(client, interaction);
 };
