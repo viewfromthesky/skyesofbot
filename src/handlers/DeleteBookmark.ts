@@ -22,11 +22,13 @@ export const DeleteBookmark: ButtonHandler = {
 
 			if(update.changes > 0) {
 				await interaction.reply({
+					ephemeral: true,
 					content: `Your bookmark "${bookmark.bookmark_name}" has been deleted.`
 				});
 			}
 		} else {
 			await interaction.reply({
+				ephemeral: true,
 				content: `There was an issue deleting your bookmark; please try again later or contact ${getOperatorName(client)} for help.`
 			});
 		}
