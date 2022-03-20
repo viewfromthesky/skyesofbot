@@ -33,9 +33,10 @@ const handleSlashCommand = async (
   if (!slashCommand) {
     await interaction.deferReply();
 
-    // TODO: Add /help command
     interaction.followUp({
-      content: 'Command not found, try /help for a list of commands'
+      content: `Command not found; let ${getOperatorName(
+        client
+      )} know this command is busted.`
     });
 
     return;

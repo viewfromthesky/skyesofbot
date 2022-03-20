@@ -4,7 +4,6 @@ import { runMigrations } from './utils/db';
 import ready from './listeners/ready';
 import interactionCreate from './listeners/interactionCreate';
 
-// TODO: Ensure this still does what it's supposed to
 dotenv.config();
 
 console.log('Bot is starting...');
