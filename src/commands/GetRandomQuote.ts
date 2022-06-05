@@ -15,7 +15,7 @@ const GetRandomQuote: SlashCommand = {
 
     if (allQuotes.length) {
       const randomQuote =
-        allQuotes[Math.ceil(Math.random() * allQuotes.length)];
+        allQuotes[Math.ceil(Math.random() * (allQuotes.length - 1))];
 
       if (randomQuote) {
         await interaction.reply({
