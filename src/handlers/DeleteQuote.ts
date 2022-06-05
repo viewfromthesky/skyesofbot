@@ -9,10 +9,9 @@ const { OPERATOR_ID } = process.env;
 const DeleteQuote: ButtonHandler = {
   handlerName: 'DeleteQuote',
   run: async (client: Client, interaction: ButtonInteraction) => {
-    const { user } = client;
     const db = openDbConnection();
 
-    const [, quoteId] = interaction.customId.split('-');
+    const [, quoteId, userId] = interaction.customId.split('-');
     const quote: Quote = db
       .prepare('SELECT * FROM quotes WHERE quote_id = ?')
       .get(quoteId);
@@ -20,14 +19,14 @@ const DeleteQuote: ButtonHandler = {
     if (quote) {
       // check first that this quote was created by the requesting user
       if (
-        user?.id &&
-        (user?.id === quote.creator_user_id || user?.id === OPERATOR_ID)
+        userId &&
+        (userId === quote.creator_user_id || userId === OPERATOR_ID)
       ) {
         const update = db
           .prepare(
             'DELETE FROM quotes WHERE quote_id = ? AND creator_user_id = ?'
           )
-          .run(quoteId, user.id);
+          .run(quoteId, userId);
 
         if (update.changes) {
           await interaction.reply({
@@ -44,7 +43,6 @@ const DeleteQuote: ButtonHandler = {
           });
         }
       } else {
-        console.log('user:', user);
         const authorName = getMemberName(
           getMember(client, quote.creator_user_id)
         );

@@ -8,7 +8,6 @@ import {
 import { SlashCommand } from '../types/Command';
 import { openDbConnection } from '../utils/db';
 import Quote from '../types/Quote';
-import { buildQuote } from '../utils/helpers';
 
 const GetQuote: SlashCommand = {
   name: 'getquote',
@@ -23,7 +22,7 @@ const GetQuote: SlashCommand = {
     }
   ],
   run: async (_: Client, interaction: BaseCommandInteraction) => {
-    const { options } = interaction;
+    const { options, user } = interaction;
     const quoteId = (options.get('quote_id')?.value as number) || 0;
 
     if (quoteId) {
@@ -43,7 +42,7 @@ const GetQuote: SlashCommand = {
                 .setLabel('Send to channel')
                 .setStyle('PRIMARY'),
               new MessageButton()
-                .setCustomId(`DeleteQuote-${quoteId}`)
+                .setCustomId(`DeleteQuote-${quoteId}-${user.id}`)
                 .setLabel('Delete quote')
                 .setStyle('DANGER')
             )
