@@ -50,5 +50,5 @@ export function getOperatorName(client: Client): string {
 }
 
 export function buildQuote(quote: Quote): string {
-  return `"${quote.data}"\n- ${quote.quoted_person_name}, ${quote.quote_date}`;
+  return `#${quote.quote_id}: "${quote.data}"\n- ${quote.quoted_person_name}, ${quote.quote_date}`;
 }
