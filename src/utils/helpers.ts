@@ -3,9 +3,9 @@ import Quote from '../types/Quote';
 
 export function getMember(
   client: Client,
-  memberId: string
+  memberId?: string
 ): GuildMember | undefined {
-  if (!process.env.GUILD_ID) {
+  if (!process.env.GUILD_ID || !memberId) {
     return undefined;
   }
 

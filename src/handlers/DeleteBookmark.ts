@@ -19,7 +19,7 @@ export const DeleteBookmark: ButtonHandler = {
         .prepare('DELETE FROM bookmarks WHERE bookmark_id = ?')
         .run(bookmarkId);
 
-      if (update.changes > 0) {
+      if (update.changes) {
         await interaction.reply({
           ephemeral: true,
           content: `Your bookmark "${bookmark.bookmark_name}" has been deleted.`
