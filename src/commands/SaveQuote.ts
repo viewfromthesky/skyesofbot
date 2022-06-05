@@ -3,8 +3,8 @@ import { SlashCommand } from '../types/Command';
 import { openDbConnection } from '../utils/db';
 import { getOperatorName } from '../utils/helpers';
 
-const quoteIdentifierMaxLength = 1024;
-const quotedNameMaxLength = 1024;
+const quoteNameMaxLength = 1024;
+const quotedPersonNameMaxLength = 1024;
 const quoteContentMaxLength = 2048;
 
 export const SaveQuote: SlashCommand = {
@@ -41,7 +41,7 @@ export const SaveQuote: SlashCommand = {
   ],
   run: async (client: Client, interaction: BaseCommandInteraction) => {
     const { options, user } = interaction;
-    const quoteIdentifier = (options.get('name')?.value as string) || '';
+    const quoteName = (options.get('name')?.value as string) || '';
     const quotedName =
       (options.get('quoted_person_name')?.value as string) || '';
     const quoteContent = (options.get('quote')?.value as string) || '';
@@ -50,8 +50,8 @@ export const SaveQuote: SlashCommand = {
 
     // Basic validation
     if (
-      quotedName.length <= quotedNameMaxLength &&
-      quoteIdentifier.length <= quoteIdentifierMaxLength &&
+      quotedName.length <= quotedPersonNameMaxLength &&
+      quoteName.length <= quoteNameMaxLength &&
       quoteContent.length <= quoteContentMaxLength
     ) {
       const db = openDbConnection();
@@ -62,7 +62,7 @@ export const SaveQuote: SlashCommand = {
         user.id,
         ...(quoteDate && [quoteDate]),
         quotedName,
-        quoteIdentifier,
+        quoteName,
         quoteContent
       ];
 
@@ -71,7 +71,7 @@ export const SaveQuote: SlashCommand = {
       if (update.changes && update.lastInsertRowid) {
         await interaction.reply({
           ephemeral: true,
-          content: `Quote #${update.lastInsertRowid} "${quoteIdentifier}" has been saved. Find quotes again with \`/getquote\` or \`/getrandomquote\``
+          content: `Quote #${update.lastInsertRowid} "${quoteName}" has been saved. Find quotes again with \`/getquote\` or \`/getrandomquote\``
         });
       } else {
         await interaction.reply({
@@ -86,7 +86,7 @@ export const SaveQuote: SlashCommand = {
     } else {
       await interaction.reply({
         ephemeral: true,
-        content: `Content too long, please reduce the length of your quote's identifier, content or the name of the quoted person. Quote identifier length: ${quoteIdentifier.length}/${quoteIdentifierMaxLength} characters\nQuoted person's name length: ${quotedName.length}/${quotedNameMaxLength} characters\nQuote content length ${quoteContent.length}/${quoteContentMaxLength} characters`
+        content: `Content too long, please reduce the length of your quote's identifier, content or the name of the quoted person. Quote identifier length: ${quoteName.length}/${quoteNameMaxLength} characters\nQuoted person's name length: ${quotedName.length}/${quotedPersonNameMaxLength} characters\nQuote content length ${quoteContent.length}/${quoteContentMaxLength} characters`
       });
     }
   }
