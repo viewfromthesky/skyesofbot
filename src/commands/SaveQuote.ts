@@ -20,7 +20,7 @@ export const SaveQuote: SlashCommand = {
       type: Constants.ApplicationCommandOptionTypes.STRING
     },
     {
-      name: 'quoted name',
+      name: 'quoted_name',
       description: "The name of the person you're quoting",
       required: true,
       type: Constants.ApplicationCommandOptionTypes.STRING
@@ -42,7 +42,7 @@ export const SaveQuote: SlashCommand = {
   run: async (client: Client, interaction: BaseCommandInteraction) => {
     const { options, user } = interaction;
     const quoteIdentifier = (options.get('identifier')?.value as string) || '';
-    const quotedName = (options.get('quoted name')?.value as string) || '';
+    const quotedName = (options.get('quoted_name')?.value as string) || '';
     const quoteContent = (options.get('quote')?.value as string) || '';
     const quoteDate = (options.get('date')?.value as string) || '';
 
