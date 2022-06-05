@@ -30,13 +30,13 @@ export const SaveQuote: SlashCommand = {
       description: "Your quote's content",
       required: true,
       type: Constants.ApplicationCommandOptionTypes.STRING
-    },
-    {
-      name: 'date',
-      description:
-        "The original date of the statement you're quoting. Current date/time is used if no input given.",
-      required: false,
-      type: Constants.ApplicationCommandOptionTypes.STRING
+      // },
+      // {
+      //   name: 'date',
+      //   description:
+      //     "The original date of the statement you're quoting. Current date/time is used if no input given.",
+      //   required: false,
+      //   type: Constants.ApplicationCommandOptionTypes.STRING
     }
   ],
   run: async (client: Client, interaction: BaseCommandInteraction) => {
