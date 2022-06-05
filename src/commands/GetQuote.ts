@@ -52,15 +52,15 @@ const GetQuote: SlashCommand = {
     if (quote) {
       await interaction.reply({
         ephemeral: true,
-        content: `You've selected quote #${quoteId}, "${quote.quote_name}"`,
+        content: `You've selected quote #${quote.quote_id}, "${quote.quote_name}"`,
         components: [
           new MessageActionRow().addComponents(
             new MessageButton()
-              .setCustomId(`SendQuoteToChannel-${quoteId}`)
+              .setCustomId(`SendQuoteToChannel-${quote.quote_id}`)
               .setLabel('Send to channel')
               .setStyle('PRIMARY'),
             new MessageButton()
-              .setCustomId(`DeleteQuote-${quoteId}-${user.id}`)
+              .setCustomId(`DeleteQuote-${quote.quote_id}-${user.id}`)
               .setLabel('Delete quote')
               .setStyle('DANGER')
           )
@@ -72,7 +72,7 @@ const GetQuote: SlashCommand = {
         content: `No quote was selected. If you think this is an error, contact ${getOperatorName(
           client
         )}.`
-      })
+      });
     }
   }
 };
