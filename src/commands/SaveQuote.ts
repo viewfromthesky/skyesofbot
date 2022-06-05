@@ -30,13 +30,15 @@ export const SaveQuote: SlashCommand = {
       description: "Your quote's content",
       required: true,
       type: Constants.ApplicationCommandOptionTypes.STRING
-      // },
-      // {
-      //   name: 'date',
-      //   description:
-      //     "The original date of the statement you're quoting. Current date/time is used if no input given.",
-      //   required: false,
-      //   type: Constants.ApplicationCommandOptionTypes.STRING
+    },
+    {
+      name: 'quote_year',
+      description:
+        "The origin year of the statement you're quoting. Blank if not given.",
+      required: false,
+      type: Constants.ApplicationCommandOptionTypes.INTEGER,
+      minValue: 1,
+      maxValue: 3000
     }
   ],
   run: async (client: Client, interaction: BaseCommandInteraction) => {
@@ -45,8 +47,7 @@ export const SaveQuote: SlashCommand = {
     const quotedName =
       (options.get('quoted_person_name')?.value as string) || '';
     const quoteContent = (options.get('quote')?.value as string) || '';
-    // date not currently in use, logic should bypass it
-    const quoteDate = (options.get('date')?.value as string) || '';
+    const quoteYear = (options.get('quote_year')?.value as string) || '';
 
     // Basic validation
     if (
@@ -55,12 +56,12 @@ export const SaveQuote: SlashCommand = {
       quoteContent.length <= quoteContentMaxLength
     ) {
       const db = openDbConnection();
-      const query = quoteDate
-        ? 'INSERT INTO quotes (creator_user_id, quote_date, quoted_person_name, quote_name, data) VALUES (?, ?, ?, ?, ?)'
+      const query = quoteYear
+        ? 'INSERT INTO quotes (creator_user_id, quote_year, quoted_person_name, quote_name, data) VALUES (?, ?, ?, ?, ?)'
         : 'INSERT INTO quotes (creator_user_id, quoted_person_name, quote_name, data) VALUES (?, ?, ?, ?)';
       const quoteArguments = [
         user.id,
-        ...(quoteDate && [quoteDate]),
+        ...(quoteYear && [quoteYear]),
         quotedName,
         quoteName,
         quoteContent
