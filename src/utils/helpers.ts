@@ -1,4 +1,5 @@
 import { Client, GuildMember } from 'discord.js';
+import Quote from '../types/Quote';
 
 export function getOperator(client: Client): GuildMember | undefined {
   if (!process.env.GUILD_ID || !process.env.OPERATOR_ID) {
@@ -29,4 +30,8 @@ export function getOperatorName(client: Client): string {
   }
 
   return 'an admin';
+}
+
+export function buildQuote(quote: Quote): string {
+  return `"${quote.data}"\n- ${quote.quote_name}, ${quote.quote_date}`;
 }
