@@ -4,10 +4,10 @@ import { openDbConnection } from '../utils/db';
 import Quote from '../types/Quote';
 import { getOperatorName, buildQuote } from '../utils/helpers';
 
-const GetRandomQuote: SlashCommand = {
-  name: 'getrandomquote',
+const SendRandomQuote: SlashCommand = {
+  name: 'sendrandomquote',
   description:
-    'Print a random quote that someone has saved. It could be absolutely anything...',
+    'Send a random quote that someone has saved. It could be absolutely anything...',
   type: 'CHAT_INPUT',
   run: async (client: Client, interaction: BaseCommandInteraction) => {
     const db = openDbConnection();
@@ -42,4 +42,4 @@ const GetRandomQuote: SlashCommand = {
   }
 };
 
-export default GetRandomQuote;
+export default SendRandomQuote;
