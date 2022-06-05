@@ -35,9 +35,7 @@ const GetQuote: SlashCommand = {
       if (quote) {
         await interaction.reply({
           ephemeral: true,
-          content: `You've selected quote #${quoteId}, "${
-            quote.quote_name
-          }".\n${buildQuote(quote)}\nWhat would you like to do?`,
+          content: `You've selected quote #${quoteId}, "${quote.quote_name}"`,
           components: [
             new MessageActionRow().addComponents(
               new MessageButton()

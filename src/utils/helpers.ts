@@ -50,6 +50,8 @@ export function getOperatorName(client: Client): string {
 }
 
 export function buildQuote(quote: Quote): string {
-  // TODO: update quote.quote_date to output year only
-  return `#${quote.quote_id}\n> ${quote.data}\n_- ${quote.quoted_person_name}, ${quote.quote_date}_`;
+  // this year representation _may_ need replacing with a proper date library...
+  return `#${quote.quote_id}\n> ${quote.data}\n_- ${
+    quote.quoted_person_name
+  }, ${quote.quote_date.slice(0, 3)}_`;
 }
