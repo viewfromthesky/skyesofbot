@@ -11,7 +11,9 @@ const GetRandomQuote: SlashCommand = {
   type: 'CHAT_INPUT',
   run: async (client: Client, interaction: BaseCommandInteraction) => {
     const db = openDbConnection();
-    const numOfQuotes: number = db.prepare('SELECT COUNT(*) FROM quotes').get();
+    const { c: numOfQuotes }: { c: number } = db
+      .prepare('SELECT COUNT(*) as c FROM quotes')
+      .get();
 
     const randomQuoteId = Math.ceil(Math.random() * numOfQuotes);
     const randomQuote: Quote = db
