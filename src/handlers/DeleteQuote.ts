@@ -16,6 +16,11 @@ const DeleteQuote: ButtonHandler = {
       .prepare('SELECT * FROM quotes WHERE quote_id = ?')
       .get(quoteId);
 
+    console.log({
+      userId,
+      OPERATOR_ID
+    });
+
     if (quote) {
       // check first that this quote was created by the requesting user
       if (
