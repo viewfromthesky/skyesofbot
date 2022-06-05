@@ -53,5 +53,5 @@ export function buildQuote(quote: Quote): string {
   // this year representation _may_ need replacing with a proper date library...
   return `#${quote.quote_id}\n> ${quote.data}\n_- ${
     quote.quoted_person_name
-  }, ${quote.quote_date.slice(0, 3)}_`;
+  }, ${quote.quote_date.slice(0, 4)}_`;
 }
