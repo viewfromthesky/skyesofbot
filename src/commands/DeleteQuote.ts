@@ -13,7 +13,7 @@ const DeleteQuote: SlashCommand = {
       name: 'quote_id',
       description: 'The numeric ID of the quote you want to delete.',
       required: true,
-      type: Constants.ApplicationCommandOptionTypes.NUMBER
+      type: Constants.ApplicationCommandOptionTypes.INTEGER
     }
   ],
   run: async (client: Client, interaction: BaseCommandInteraction) => {

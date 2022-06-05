@@ -6,6 +6,7 @@ import { GetBookmark } from './commands/GetBookmark';
 import { SaveQuote } from './commands/SaveQuote';
 import GetRandomQuote from './commands/GetRandomQuote';
 import DeleteQuote from './commands/DeleteQuote';
+import GetQuote from './commands/GetQuote';
 
 export const Commands: SlashCommand[] = [
   CoinFlip,
@@ -14,7 +15,8 @@ export const Commands: SlashCommand[] = [
   GetBookmark,
   SaveQuote,
   GetRandomQuote,
-  DeleteQuote
+  DeleteQuote,
+  GetQuote
   // TODO: CreateSnippet
   // TODO: EditSnippet
 ];

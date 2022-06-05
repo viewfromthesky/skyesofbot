@@ -50,5 +50,6 @@ export function getOperatorName(client: Client): string {
 }
 
 export function buildQuote(quote: Quote): string {
+  // TODO: update quote.quote_date to output year only
   return `#${quote.quote_id}: "${quote.data}"\n- ${quote.quoted_person_name}, ${quote.quote_date}`;
 }
