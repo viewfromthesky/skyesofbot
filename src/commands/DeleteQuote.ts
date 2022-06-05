@@ -18,7 +18,7 @@ const DeleteQuote: SlashCommand = {
   ],
   run: async (client: Client, interaction: BaseCommandInteraction) => {
     const { options, user } = interaction;
-    const quoteId = (options.get('id')?.value as number) || 0;
+    const quoteId = (options.get('quote_id')?.value as number) || 0;
 
     // 0 is not valid
     if (quoteId) {
