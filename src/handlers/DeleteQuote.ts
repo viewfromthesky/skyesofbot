@@ -15,11 +15,6 @@ const DeleteQuote: ButtonHandler = {
       .get(quoteId);
     const { OPERATOR_ID } = process.env;
 
-    console.log({
-      userId,
-      OPERATOR_ID
-    });
-
     if (quote) {
       // check first that this quote was created by the requesting user
       if (
@@ -27,10 +22,8 @@ const DeleteQuote: ButtonHandler = {
         (userId === quote.creator_user_id || userId === OPERATOR_ID)
       ) {
         const update = db
-          .prepare(
-            'DELETE FROM quotes WHERE quote_id = ? AND creator_user_id = ?'
-          )
-          .run(quoteId, userId);
+          .prepare('DELETE FROM quotes WHERE quote_id = ?')
+          .run(quoteId);
 
         if (update.changes) {
           await interaction.reply({
