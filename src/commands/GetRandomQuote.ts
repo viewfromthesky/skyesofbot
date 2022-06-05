@@ -13,6 +13,8 @@ const GetRandomQuote: SlashCommand = {
     const db = openDbConnection();
     const allQuotes: Quote[] = db.prepare('SELECT * FROM quotes').get();
 
+    console.log(allQuotes);
+
     if (allQuotes.length) {
       const randomQuote =
         allQuotes[Math.ceil(Math.random() * allQuotes.length)];
