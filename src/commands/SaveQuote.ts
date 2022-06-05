@@ -69,7 +69,7 @@ export const SaveQuote: SlashCommand = {
       if (update.changes && update.lastInsertRowid) {
         await interaction.reply({
           ephemeral: true,
-          content: `Your quote "${quoteIdentifier}" has been saved. Find quotes again with \`/getquote\` or \`/getrandomquote\``
+          content: `Your quote "${quoteIdentifier}" has been saved with an ID of ${update.lastInsertRowid}. Find quotes again with \`/getquote\` or \`/getrandomquote\``
         });
       } else {
         await interaction.reply({
