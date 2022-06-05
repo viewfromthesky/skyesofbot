@@ -3,9 +3,13 @@ import Quote from '../types/Quote';
 
 export function getMember(
   client: Client,
-  guildId: string,
   memberId: string
 ): GuildMember | undefined {
+  if (!process.env.GUILD_ID) {
+    return undefined;
+  }
+
+  const { GUILD_ID: guildId } = process.env;
   const guild = client.guilds.cache.find((guild) => guild.id === guildId);
 
   if (guild) {
@@ -36,9 +40,9 @@ export function getOperator(client: Client): GuildMember | undefined {
     return undefined;
   }
 
-  const { GUILD_ID: guildId, OPERATOR_ID: operatorId } = process.env;
+  const { OPERATOR_ID: operatorId } = process.env;
 
-  return getMember(client, guildId, operatorId);
+  return getMember(client, operatorId);
 }
 
 export function getOperatorName(client: Client): string {

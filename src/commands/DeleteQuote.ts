@@ -2,7 +2,7 @@ import { BaseCommandInteraction, Client, Constants } from 'discord.js';
 import { SlashCommand } from '../types/Command';
 import { openDbConnection } from '../utils/db';
 import Quote from '../types/Quote';
-import { getOperatorName } from '../utils/helpers';
+import { getOperatorName, getMemberName, getMember } from '../utils/helpers';
 
 const DeleteQuote: SlashCommand = {
   name: 'deletequote',
@@ -50,12 +50,26 @@ const DeleteQuote: SlashCommand = {
           });
         }
       } else {
-        await interaction.reply({
-          ephemeral: true,
-          content: `There is no quote with this ID available to delete. This could be either that no quote exists or you do not have permission to delete because you did not create it. If you want this quote removed, either find out who wrote it, or contact ${getOperatorName(
-            client
-          )} to continue.`
-        });
+        // Check again to see whether or not a quote exists, regardless of author
+        const quoteNoAuthor = db
+          .prepare('SELECT * FROM quotes WHERE quote_id = ?')
+          .get(quoteId);
+
+        if (quoteNoAuthor) {
+          await interaction.reply({
+            ephemeral: true,
+            content: `While quote #${quoteId} exists, you do not have permission to delete it. Please contact the author of the quote (${getMemberName(
+              getMember(client, user.id)
+            )})
+            or ${getOperatorName(client)} to have it deleted.`
+          });
+        } else {
+          await interaction.reply({
+            ephemeral: true,
+            content:
+              'There is no quote with this ID. Please try a different quote ID to delete.'
+          });
+        }
       }
 
       db.close();
