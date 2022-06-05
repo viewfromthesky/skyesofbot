@@ -11,9 +11,7 @@ const GetRandomQuote: SlashCommand = {
   type: 'CHAT_INPUT',
   run: async (client: Client, interaction: BaseCommandInteraction) => {
     const db = openDbConnection();
-    const allQuotes: Quote[] = db.prepare('SELECT * FROM quotes').get();
-
-    console.log(allQuotes);
+    const allQuotes: Quote[] = db.prepare('SELECT * FROM quotes').all();
 
     if (allQuotes.length) {
       const randomQuote =
@@ -36,7 +34,7 @@ const GetRandomQuote: SlashCommand = {
       interaction.reply({
         ephemeral: true,
         content:
-          'There are no quotes available to select from. Try adding a new one with ``/savequote`'
+          'There are no quotes available to select from. Try adding a new one with `/savequote`'
       });
     }
 
