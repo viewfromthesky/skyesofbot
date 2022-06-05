@@ -44,13 +44,16 @@ const DeleteQuote: ButtonHandler = {
           });
         }
       } else {
-        const authorName = getMemberName(getMember(client, user?.id));
+        console.log('user:', user);
+        const authorName = getMemberName(
+          getMember(client, quote.creator_user_id)
+        );
         // This user does not have permission to delete
         await interaction.reply({
           ephemeral: true,
           content: `You do not have permission to delete quote #${quoteId}. Please either contact the quote author ${
-            authorName ? `(${authorName})` : ''
-          } or ${getOperatorName(client)} in order to delete this quote.`
+            authorName ? `(${authorName}) ` : ''
+          }or ${getOperatorName(client)} in order to delete this quote.`
         });
       }
     } else {
