@@ -4,8 +4,6 @@ import { openDbConnection } from '../utils/db';
 import { getOperatorName, getMember, getMemberName } from '../utils/helpers';
 import Quote from '../types/Quote';
 
-const { OPERATOR_ID } = process.env;
-
 const DeleteQuote: ButtonHandler = {
   handlerName: 'DeleteQuote',
   run: async (client: Client, interaction: ButtonInteraction) => {
@@ -15,6 +13,7 @@ const DeleteQuote: ButtonHandler = {
     const quote: Quote = db
       .prepare('SELECT * FROM quotes WHERE quote_id = ?')
       .get(quoteId);
+    const { OPERATOR_ID } = process.env;
 
     console.log({
       userId,
