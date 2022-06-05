@@ -7,7 +7,6 @@ export function getOperator(client: Client): GuildMember | undefined {
   }
 
   const { GUILD_ID: guildId, OPERATOR_ID: operatorId } = process.env;
-  console.log({ guildId, operatorId });
   const guild = client.guilds.cache.find((guild) => guild.id === guildId);
 
   if (guild) {
@@ -26,10 +25,10 @@ export function getOperator(client: Client): GuildMember | undefined {
 export function getOperatorName(client: Client): string {
   const operator = getOperator(client);
 
-  console.log('Operator:', operator);
-
   if (operator?.nickname) {
     return operator.nickname;
+  } else if (operator?.user.username) {
+    return operator.user.username;
   }
 
   return 'an admin';
