@@ -11,26 +11,30 @@ const GetRandomQuote: SlashCommand = {
   type: 'CHAT_INPUT',
   run: async (client: Client, interaction: BaseCommandInteraction) => {
     const db = openDbConnection();
-    const { c: numOfQuotes }: { c: number } = db
-      .prepare('SELECT COUNT(*) as c FROM quotes')
-      .get();
+    const allQuotes: Quote[] = db.prepare('SELECT * FROM quotes').get();
 
-    const randomQuoteId = Math.ceil(Math.random() * numOfQuotes);
-    const randomQuote: Quote = db
-      .prepare('SELECT * FROM quotes WHERE quote_id = ?')
-      .get(randomQuoteId);
+    if (allQuotes.length) {
+      const randomQuote =
+        allQuotes[Math.ceil(Math.random() * allQuotes.length)];
 
-    if (randomQuote) {
-      await interaction.reply({
-        ephemeral: false,
-        content: buildQuote(randomQuote)
-      });
+      if (randomQuote) {
+        await interaction.reply({
+          ephemeral: false,
+          content: buildQuote(randomQuote)
+        });
+      } else {
+        await interaction.reply({
+          ephemeral: true,
+          content: `There was an error returning a random quote. This could be because there are no quotes available, or a bad quote ID was chosen. Contact ${getOperatorName(
+            client
+          )} as it's possible that something is broken.`
+        });
+      }
     } else {
-      await interaction.reply({
+      interaction.reply({
         ephemeral: true,
-        content: `There was an error returning a random quote. This could be because there are no quotes available, or a bad quote ID was chosen. Contact ${getOperatorName(
-          client
-        )} as it's possible that something is broken.`
+        content:
+          'There are no quotes available to select from. Try adding a new one with ``/savequote`'
       });
     }
 
