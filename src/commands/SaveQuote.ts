@@ -42,7 +42,8 @@ export const SaveQuote: SlashCommand = {
   run: async (client: Client, interaction: BaseCommandInteraction) => {
     const { options, user } = interaction;
     const quoteIdentifier = (options.get('identifier')?.value as string) || '';
-    const quotedName = (options.get('quoted_person_name')?.value as string) || '';
+    const quotedName =
+      (options.get('quoted_person_name')?.value as string) || '';
     const quoteContent = (options.get('quote')?.value as string) || '';
     const quoteDate = (options.get('date')?.value as string) || '';
 
