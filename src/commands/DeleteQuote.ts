@@ -36,9 +36,7 @@ const DeleteQuote: SlashCommand = {
           )
           .run(quoteId, user.id);
 
-        console.log('update:', update);
-
-        if (update.changes && update.lastInsertRowid) {
+        if (update.changes) {
           await interaction.reply({
             ephemeral: true,
             content: `Your quote "${quote.quote_name}" (ID ${quoteId}) has been successfully removed.`
