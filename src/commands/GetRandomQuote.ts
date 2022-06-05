@@ -33,6 +33,8 @@ const GetRandomQuote: SlashCommand = {
         )} as it's possible that something is broken.`
       });
     }
+
+    db.close();
   }
 };
 
