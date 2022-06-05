@@ -18,6 +18,8 @@ const GetRandomQuote: SlashCommand = {
       .prepare('SELECT * FROM quotes WHERE quote_id = ?')
       .get(randomQuoteId);
 
+    console.log({ numOfQuotes, randomQuoteId, randomQuote });
+
     if (randomQuote) {
       await interaction.reply({
         ephemeral: false,
