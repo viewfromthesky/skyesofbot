@@ -26,6 +26,8 @@ export function getOperator(client: Client): GuildMember | undefined {
 export function getOperatorName(client: Client): string {
   const operator = getOperator(client);
 
+  console.log('Operator:', operator);
+
   if (operator?.nickname) {
     return operator.nickname;
   }

@@ -13,7 +13,7 @@ const GetRandomQuote: SlashCommand = {
     const db = openDbConnection();
     const numOfQuotes: number = db.prepare('SELECT COUNT(*) FROM quotes').get();
 
-    const randomQuoteId = Math.floor(Math.random() * numOfQuotes);
+    const randomQuoteId = Math.ceil(Math.random() * numOfQuotes);
     const randomQuote: Quote = db
       .prepare('SELECT * FROM quotes WHERE quote_id = ?')
       .get(randomQuoteId);
