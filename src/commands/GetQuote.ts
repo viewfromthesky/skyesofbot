@@ -29,7 +29,7 @@ const GetQuote: SlashCommand = {
     if (quoteId) {
       const db = openDbConnection();
       const quote: Quote = db
-        .prepare('SELECT 1 FROM quotes WHERE quote_id = ?')
+        .prepare('SELECT * FROM quotes WHERE quote_id = ?')
         .get(quoteId);
 
       if (quote) {
@@ -37,7 +37,7 @@ const GetQuote: SlashCommand = {
           ephemeral: true,
           content: `You've selected quote #${quoteId}, "${
             quote.quote_name
-          }".\n> ${buildQuote(quote)}\nWhat would you like to do?`,
+          }".\n${buildQuote(quote)}\nWhat would you like to do?`,
           components: [
             new MessageActionRow().addComponents(
               new MessageButton()
