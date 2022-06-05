@@ -8,7 +8,7 @@ import {
 import { SlashCommand } from '../types/Command';
 import { openDbConnection } from '../utils/db';
 import Quote from '../types/Quote';
-import { getOperatorName, buildQuote } from '../utils/helpers';
+import { buildQuote } from '../utils/helpers';
 
 const GetQuote: SlashCommand = {
   name: 'getquote',
@@ -22,7 +22,7 @@ const GetQuote: SlashCommand = {
       type: Constants.ApplicationCommandOptionTypes.INTEGER
     }
   ],
-  run: async (client: Client, interaction: BaseCommandInteraction) => {
+  run: async (_: Client, interaction: BaseCommandInteraction) => {
     const { options } = interaction;
     const quoteId = (options.get('quote_id')?.value as number) || 0;
 
@@ -58,6 +58,8 @@ const GetQuote: SlashCommand = {
           content: 'No quote exists with this ID. Please try another ID.'
         });
       }
+
+      db.close();
     } else {
       // The quote ID is invalid
       await interaction.reply({
