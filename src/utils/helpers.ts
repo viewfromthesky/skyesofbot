@@ -25,6 +25,13 @@ export function getMember(
   return undefined;
 }
 
+/**
+ * Return the only the name of a guild member. Returns server nickname if present, otherwise returns username.
+ *
+ * @param   {GuildMember} member - The member to get the name from.
+ *
+ * @returns {string|undefined}  - The name of the member, if they exist.
+ */
 export function getMemberName(member?: GuildMember): string | undefined {
   if (member?.nickname) {
     return member.nickname;
@@ -45,6 +52,13 @@ export function getOperator(client: Client): GuildMember | undefined {
   return getMember(client, operatorId);
 }
 
+/**
+ * Return the name of the bot operator, using getMemberName.
+ *
+ * @param   {Client} client
+ *
+ * @returns {string}  - The name of the bot's operator, or 'an admin'.
+ */
 export function getOperatorName(client: Client): string {
   return getMemberName(getOperator(client)) || 'an admin';
 }
