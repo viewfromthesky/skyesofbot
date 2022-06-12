@@ -62,14 +62,9 @@ export const CreateManagedVoiceChannel: SlashCommand = {
             }
           ]
         });
-        const channelWithParent = await channel.setParent(
-          MANAGED_CHANNEL_CATEGORY_ID
-        );
-        await channelWithParent.lockPermissions();
 
-        // channel.permissionOverwrites.create(guild.roles.everyone.id, {
-        //   MANAGE_CHANNELS: false
-        // });
+        await channel.setParent(MANAGED_CHANNEL_CATEGORY_ID);
+
         await interaction.reply({
           ephemeral: true,
           content: 'The new channel has been created, with you as the manager.'
