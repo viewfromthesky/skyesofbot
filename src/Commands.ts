@@ -7,6 +7,7 @@ import { SaveQuote } from './commands/SaveQuote';
 import SendRandomQuote from './commands/SendRandomQuote';
 // import DeleteQuote from './commands/DeleteQuote';
 import GetQuote from './commands/GetQuote';
+import CreateManagedVoiceChannel from './commands/CreateManagedVoiceChannel';
 
 export const Commands: SlashCommand[] = [
   CoinFlip,
@@ -15,8 +16,8 @@ export const Commands: SlashCommand[] = [
   GetBookmark,
   SaveQuote,
   SendRandomQuote,
-  // DeleteQuote,
-  GetQuote
+  GetQuote,
+  CreateManagedVoiceChannel
   // TODO: CreateSnippet
   // TODO: EditSnippet
 ];
