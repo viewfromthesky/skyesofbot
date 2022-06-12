@@ -1,4 +1,4 @@
-import { Client, VoiceState } from 'discord.js';
+import { Client, VoiceState, VoiceChannel } from 'discord.js';
 import { openDbConnection } from '../utils/db';
 
 export default async (client: Client) => {
@@ -7,7 +7,6 @@ export default async (client: Client) => {
     async (oldState: VoiceState, newState: VoiceState) => {
       // As long as the user was leaving the channel
       if (oldState.channelId && newState.channelId !== oldState.channelId) {
-        // Check to see if this channel is temporary
         const db = openDbConnection();
         const { channelId } = oldState;
 
@@ -20,7 +19,12 @@ export default async (client: Client) => {
         if (channelIsTemporary) {
           const channel = await client.channels.fetch(channelId);
 
-          if (channel) {
+          // If the voice channel still exists and there are no members remaining, delete it
+          if (
+            channel &&
+            channel.isVoice &&
+            (channel as VoiceChannel).members.size === 0
+          ) {
             channel.delete('Temporary channel now closing.');
 
             db.prepare(
