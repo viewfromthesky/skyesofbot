@@ -5,7 +5,6 @@ import { SaveBookmark } from './commands/SaveBookmark';
 import { GetBookmark } from './commands/GetBookmark';
 import { SaveQuote } from './commands/SaveQuote';
 import SendRandomQuote from './commands/SendRandomQuote';
-// import DeleteQuote from './commands/DeleteQuote';
 import GetQuote from './commands/GetQuote';
 import CreateManagedVoiceChannel from './commands/CreateManagedVoiceChannel';
 
