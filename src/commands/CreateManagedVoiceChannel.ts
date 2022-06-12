@@ -67,7 +67,7 @@ export const CreateManagedVoiceChannel: SlashCommand = {
 
         await interaction.reply({
           ephemeral: true,
-          content: 'The new channel has been created, with you as the manager.'
+          content: `The new channel "${channel.name}" has been created, with you as the manager.`
         });
       } catch (error) {
         console.log(
