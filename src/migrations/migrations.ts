@@ -20,5 +20,9 @@ export const migrations: Record<string, Migration> = {
   'ed56d8fa-c0ef-45b5-8f02-a9c3ecc4ba12': {
     name: 'Add quote_year',
     up: 'update-quote-year'
+  },
+  '4dad0014-4a2d-4284-afae-84165686542b': {
+    name: 'Create temporary voice channels',
+    up: 'create-temporary-voice-channels'
   }
 };

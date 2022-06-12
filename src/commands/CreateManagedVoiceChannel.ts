@@ -6,6 +6,7 @@ import {
   PermissionResolvable
 } from 'discord.js';
 import { SlashCommand } from '../types/Command';
+import { openDbConnection } from '../utils/db';
 import { getOperatorName } from '../utils/helpers';
 
 export const CreateManagedVoiceChannel: SlashCommand = {
@@ -28,6 +29,13 @@ export const CreateManagedVoiceChannel: SlashCommand = {
       type: Constants.ApplicationCommandOptionTypes.INTEGER
     },
     {
+      name: 'temporary',
+      description:
+        'Enable to have this channel delete itself when all users leave.',
+      required: false,
+      type: Constants.ApplicationCommandOptionTypes.BOOLEAN
+    },
+    {
       name: 'private_by_default',
       description:
         'Enable to hide the channel from everyone by default. Set visibility settings manually after.',
@@ -41,12 +49,10 @@ export const CreateManagedVoiceChannel: SlashCommand = {
     // Get all command options
     const channelName = (options.get('channel_name')?.value as string) || '';
     const userLimit = (options.get('user_limit')?.value as number) || 0;
+    const temporary = (options.get('temporary')?.value as boolean) || false;
     const privateByDefault =
       (options.get('private_by_default')?.value as boolean) || false;
-    const {
-      MANAGED_CHANNEL_CATEGORY_ID,
-      SECURITY_ROLE_ID
-    } = process.env;
+    const { MANAGED_CHANNEL_CATEGORY_ID, SECURITY_ROLE_ID } = process.env;
 
     if (guild && user && channelName && MANAGED_CHANNEL_CATEGORY_ID) {
       try {
@@ -55,6 +61,26 @@ export const CreateManagedVoiceChannel: SlashCommand = {
           bitrate: 96000,
           ...(userLimit ? { userLimit } : null)
         });
+
+        // If this is intended to be a temporary channel, save it's ID into the temporary_voice_channels table
+        if (temporary) {
+          const db = openDbConnection();
+          const update = db
+            .prepare(
+              'INSERT INTO temporary_voice_channels (channel_id) VALUES (?)'
+            )
+            .run(channel.id);
+
+          if (!update.changes || !update.lastInsertRowid) {
+            await interaction.reply({
+              ephemeral: true,
+              content:
+                'There was a problem when creating the association for this channel as temporary. It will not be deleted automatically when all users have left.'
+            });
+          }
+
+          db.close();
+        }
 
         await channel.setParent(MANAGED_CHANNEL_CATEGORY_ID);
         // Sync permissions with the parent category first
